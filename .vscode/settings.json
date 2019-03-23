@@ -1,0 +1,6 @@
+{
+  "eslint.enable": true,
+  "editor.formatOnPaste": false,
+  "editor.formatOnSave": true,
+  "typescript.validate.enable": false
+}

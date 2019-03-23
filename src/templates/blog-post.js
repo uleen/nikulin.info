@@ -1,24 +1,21 @@
-import React from "react"
-import { Link, graphql } from "gatsby"
+import React from "react";
+import { Link, graphql } from "gatsby";
 
-import Bio from "../components/bio"
-import Layout from "../components/layout"
-import SEO from "../components/seo"
-import { rhythm, scale } from "../utils/typography"
+import Bio from "../components/bio";
+import Layout from "../components/layout";
+import SEO from "../components/seo";
+import { rhythm, scale } from "../utils/typography";
 
 class BlogPostTemplate extends React.Component {
   render() {
-    const post = this.props.data.markdownRemark
-    const siteTitle = this.props.data.site.siteMetadata.title
-    const { previous, next } = this.props.pageContext
+    const post = this.props.data.post;
+    const siteTitle = this.props.data.site.siteMetadata.title;
+    const { previous, next } = this.props.pageContext;
 
     return (
       <Layout location={this.props.location} title={siteTitle}>
-        <SEO
-          title={post.frontmatter.title}
-          description={post.frontmatter.description || post.excerpt}
-        />
-        <h1>{post.frontmatter.title}</h1>
+        <SEO title={post.title} description={"cat"} />
+        <h1>{post.title}</h1>
         <p
           style={{
             ...scale(-1 / 5),
@@ -27,9 +24,23 @@ class BlogPostTemplate extends React.Component {
             marginTop: rhythm(-1),
           }}
         >
-          {post.frontmatter.date}
+          {post.date}
         </p>
-        <div dangerouslySetInnerHTML={{ __html: post.html }} />
+        <div>
+          1 The perfect mother lets the cat sleep on her head. The children
+          laugh. Where is she? She is not carefully ironing the starched ruffles
+          of a Sunday dress. What does she say? She does not speak. Her head is
+          under the cat and like the cat, she sleeps.        2 But her children
+          are in a marsh! Bogged, they have gone wild. Yet, no one should worry.
+          See, they are there, in a sunny kitchen. They drink cups of soup and
+          wipe their faces with yellow napkins. What does it matter if they are
+          hatching plots, if in their waking dreams the poor cat is trapped its
+          hair standing on end?        3 Where shall we go? We ask the perfect
+          mother. What do you want of us? She is no where to be found. Not in
+          the cookie jar we have broken to bits not under the shiny kitchen
+          floor not on our lips. Here we are transfixed, mourning the perfect
+          mother, and she is caught in the trapped cat of her children’s dreams.
+        </div>
         <hr
           style={{
             marginBottom: rhythm(1),
@@ -48,43 +59,39 @@ class BlogPostTemplate extends React.Component {
         >
           <li>
             {previous && (
-              <Link to={previous.fields.slug} rel="prev">
-                ← {previous.frontmatter.title}
+              <Link to={previous.slug} rel="prev">
+                ← {previous.title}
               </Link>
             )}
           </li>
           <li>
             {next && (
-              <Link to={next.fields.slug} rel="next">
-                {next.frontmatter.title} →
+              <Link to={next.slug} rel="next">
+                {next.title} →
               </Link>
             )}
           </li>
         </ul>
       </Layout>
-    )
+    );
   }
 }
 
-export default BlogPostTemplate
+export default BlogPostTemplate;
 
 export const pageQuery = graphql`
-  query BlogPostBySlug($slug: String!) {
+  query($id: String!) {
     site {
       siteMetadata {
         title
         author
       }
     }
-    markdownRemark(fields: { slug: { eq: $slug } }) {
-      id
-      excerpt(pruneLength: 160)
-      html
-      frontmatter {
-        title
-        date(formatString: "MMMM DD, YYYY")
+    post: contentfulPost(id: { eq: $id }) {
+      title
+      description {
         description
       }
     }
   }
-`
+`;

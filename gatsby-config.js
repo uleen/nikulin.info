@@ -1,7 +1,11 @@
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+})
+
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Starter Blog`,
-    author: `Kyle Mathews`,
+    title: `blog`,
+    author: `Aleksandr Nikulin`,
     description: `A starter blog demonstrating what Gatsby can do.`,
     siteUrl: `https://gatsby-starter-blog-demo.netlify.com/`,
     social: {
@@ -9,6 +13,13 @@ module.exports = {
     },
   },
   plugins: [
+    {
+      resolve: `gatsby-source-contentful`,
+      options: {
+        spaceId: process.env.SPACE_ID,
+        accessToken: process.env.ACCESS_TOKEN
+      },
+    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
